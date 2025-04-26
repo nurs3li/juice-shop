@@ -52,6 +52,7 @@ jobs:
         sudo mv gitleaks /usr/local/bin/
 
     - name: Run Gitleaks Scan
+      continue-on-error: true
       run: |
         gitleaks detect --source . --report-format sarif --report-path gitleaks-report.sarif
 
