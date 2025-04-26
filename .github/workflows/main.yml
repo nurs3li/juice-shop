@@ -56,3 +56,29 @@ jobs:
         name: gitleaks-sarif
         path: gitleaks-report.sarif
 
+    - name: Upload Gitleaks SARIF Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: gitleaks-sarif
+        path: gitleaks-report.sarif
+
+    - name: Dummy Deploy
+      run: |
+        echo " Dummy deployment completed successfully!"
+        
+    - name: Run ZAP DAST Scan
+      continue-on-error: true
+      run: |
+        docker run --rm -u root -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py \
+          -t https://example.com \
+          -r zap-report.html \
+          -d
+
+    - name: Upload ZAP DAST Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: zap-dast-report
+        path: zap-report.html
+
+
+
